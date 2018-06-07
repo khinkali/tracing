@@ -78,5 +78,4 @@ public class TracingRequestFilter implements ClientRequestFilter, ClientResponse
         headers.putSingle(Tracing.TRACEE_HEADER, id);
     }
 
-
 }

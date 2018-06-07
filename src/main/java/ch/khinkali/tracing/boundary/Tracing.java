@@ -53,8 +53,14 @@ public class Tracing {
 
     void saveSpan(String parentSpanId, String spanId, String traceId, String spanName, String serviceName, String ipv4, long timestamp, long duration) {
         JsonArray span = createSpans(parentSpanId, spanId, traceId, spanName, serviceName, ipv4, timestamp, duration);
-        Response response = this.tut.request().post(Entity.json(span));
-        final int status = response.getStatus();
+        Response response = null;
+        int status;
+        try {
+            response = this.tut.request().post(Entity.json(span));
+            status = response.getStatus();
+        } finally {
+            response.close();
+        }
         if (status == 202) {
             this.LOG.log("Successfully sent");
             this.LOG.log("span: " + span);
