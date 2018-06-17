@@ -64,10 +64,13 @@ public class Tracing {
 
     public int getStatus(JsonArray span) {
         Response response = null;
-        int status;
+        int status = -1;
         try {
             response = this.tut.request().post(Entity.json(span));
             status = response.getStatus();
+        } catch (Exception e) {
+            LOG.log("Could not connect to zipkin: " + e.getMessage());
+            e.printStackTrace();
         } finally {
             if (response != null) {
                 response.close();
